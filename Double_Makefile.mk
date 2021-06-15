@@ -41,7 +41,7 @@ ${NAME}:		${OBJS_DIR} ${OBJS1} ${OBJS2} $(OBJS)
 				${CC} ${CFLAGS} ${INCLUDE} ${OBJS2} $(OBJS) -o ${NAME2}
 				echo "$(BOLD)${GREEN}$(ERASE)--> ${NAME1} generated <--${END}"
 				echo "$(BOLD)${GREEN}$(ERASE)--> ${NAME2} generated <--${END}"
-				echo "$(BOLD)${GREEN}$(ERASE)--> ${NAME} generated <--${END}"
+				echo "$(BOLD)${GREEN}$(ERASE)--> ${NAME} ready <--${END}"
 
 $(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c inc/*.h
 				$(MKDIR) $(dir $@)
