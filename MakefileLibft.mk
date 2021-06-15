@@ -10,18 +10,25 @@ CFLAGS			= -Wall -Werror -Wextra
 # CFLAGS			= -g
 # CFLAGS			= -Wall -Werror -Wextra -fsanitize=address -g3
 # CFLAGS			= -fsanitize=address -g3
-INCLUDE			= -Iinc
+INCLUDE			= -Iinc -I${LIBFT}/inc
 RM				= rm -rf
 MKDIR			= mkdir -p
+LIBFT			= libft
 
-all:			$(NAME)
+all:			libft $(NAME)
 
 $(OBJS_DIR):
 				$(MKDIR) $@
 
-${NAME}:		${OBJS_DIR} ${OBJS}
-				${CC} ${CFLAGS} ${INCLUDE} ${OBJS} -o ${NAME}
-				echo "$(BOLD)${GREEN}$(ERASE)--> ${NAME} generated <--${END}"
+libft:
+				printf "$(ERASE)${GREEN}--> LIBFT <--${END}"
+				make -C ${LIBFT} > SILENT
+				$(RM) SILENT
+				printf "$(ERASE)"
+
+${NAME}:		libft ${OBJS_DIR} ${OBJS}
+				${CC} ${CFLAGS} ${INCLUDE} ${OBJS} -L ${LIBFT} -lft -o ${NAME}
+				echo "$(BOLD)${GREEN}$(ERASE)--> minishell generated <--${END}"
 
 $(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c inc/*.h
 				$(MKDIR) $(dir $@)
@@ -30,15 +37,20 @@ $(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c inc/*.h
 
 clean:
 				${RM} $(OBJS)
+				make clean -C $(LIBFT) > SILENT
+				$(RM) SILENT
 
 fclean:			clean
 				${RM} $(OBJS_DIR) $(NAME)
-				printf "$(ERASE)${GREEN}--> MINISHELL CLEAN <--${END}"
+				printf "$(ERASE)${GREEN}--> LIBFT CLEAN<--${END}"
+				make fclean -C $(LIBFT) > SILENT
+				$(RM) SILENT
+				printf "$(ERASE)${GREEN}--> ${NAME} CLEAN <--${END}"
 
 re:				fclean all
 
-.PHONY: 		clean fclean all re
-.SILENT:		clean fclean all re $(OBJS) $(NAME) $(OBJS_DIR)
+.PHONY: 		clean fclean all re libft
+.SILENT:		clean fclean all re libft $(OBJS) $(NAME) $(OBJS_DIR)
 
 ERASE	= \033[2K\r
 GREY	= \033[30m
