@@ -1,3 +1,45 @@
+NAME			= 
+LST_SRCS		= \
+	main.c
+SRCS_DIR		= srcs
+OBJS_DIR		= objs
+SRCS			= $(addprefix $(SRCS_DIR)/,$(LST_SRCS))
+OBJS			= $(LST_SRCS:%.c=$(OBJS_DIR)/%.o)
+CC				= clang
+CFLAGS			= -Wall -Werror -Wextra
+# CFLAGS			= -g
+# CFLAGS			= -Wall -Werror -Wextra -fsanitize=address -g3
+# CFLAGS			= -fsanitize=address -g3
+INCLUDE			= -Iinc
+RM				= rm -rf
+MKDIR			= mkdir -p
+
+all:			$(NAME)
+
+$(OBJS_DIR):
+				$(MKDIR) $@
+
+${NAME}:		${OBJS_DIR} ${OBJS}
+				${CC} ${CFLAGS} ${INCLUDE} ${OBJS} -o ${NAME}
+				echo "$(BOLD)${GREEN}$(ERASE)--> ${NAME} generated <--${END}"
+
+$(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c inc/*.h
+				$(MKDIR) $(dir $@)
+				${CC} ${CFLAGS} $(INCLUDE) -c  $< -o $@
+				printf "$(ERASE)--> [$(GREEN)$<$(END)] <--"
+
+clean:
+				${RM} $(OBJS)
+
+fclean:			clean
+				${RM} $(OBJS_DIR) $(NAME)
+				printf "$(ERASE)${GREEN}--> MINISHELL CLEAN <--${END}"
+
+re:				fclean all
+
+.PHONY: 		clean fclean all re compil libft
+.SILENT:		clean fclean all re compil libft $(OBJS) $(NAME) $(OBJS_DIR)
+
 ERASE	= \033[2K\r
 GREY	= \033[30m
 RED		= \033[31m
@@ -11,45 +53,3 @@ END		= \033[0m
 BOLD	= \033[1m
 UNDER	= \033[4m
 SUR		= \033[7m
-
-NAME		= name
-LST_OBJS	= main.o
-LST_SRCS	= ${SRCS:.o=.c}
-INCLUDES	= ./inc/*.h
-CC			= clang
-RM			= rm -rf
-FLAGS		= -Wall -Wextra -Werror
-# FLAGS		= -Wall -Wextra -Werror -Ofast
-# FLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
-# FLAGS		= -Wall -Wextra -Werror -g #(lldb)
-AR			= ar
-ARFLAGS		= rcs
-PATH_SRCS	= srcs
-PATH_OBJS	= objs
-SRCS		= $(addprefix $(PATH_SRCS)/,$(LST_SRCS))
-OBJS		= $(addprefix $(PATH_OBJS)/,$(LST_OBJS))
-
-$(NAME):	$(OBJS)
-			$(CC) $(FLAGS) -o $@ $(OBJS)
-			printf "$(ERASE)$(GREEN)⤖ $(CYAN)$(NAME) : $(GREEN)ok$(END)\n"
-
-$(PATH_OBJS)/%.o:		$(PATH_SRCS)/%.c $(INCLUDES)
-			@mkdir -p $(PATH_OBJS)
-			@$(CC) $(FLAGS) -c $< -o $@
-			@printf "$(ERASE)$(CYAN)⤖ $(NAME) : $(RED)[$<]"
-
-all:		$(NAME)
-
-bonus:		$(NAME)
-
-clean:		
-			$(RM) $(PATH_OBJS)
-			printf "$(ERASE)$(GREEN)⤖ $(CYAN)$(NAME) : $(GREEN)clean$(END)\n"
-
-fclean:		clean
-			$(RM) $(NAME)
-
-re:			fclean all
-
-.PHONY:		all clean fclean re
-.SILENT:	fclean clean re $(NAME) all
