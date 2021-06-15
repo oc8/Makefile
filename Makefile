@@ -33,7 +33,7 @@ clean:
 
 fclean:			clean
 				${RM} $(OBJS_DIR) $(NAME)
-				printf "$(ERASE)${GREEN}--> MINISHELL CLEAN <--${END}"
+				printf "$(ERASE)${GREEN}--> ${NAME} CLEAN <--${END}\n"
 
 re:				fclean all
 

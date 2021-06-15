@@ -28,7 +28,7 @@ libft:
 
 ${NAME}:		libft ${OBJS_DIR} ${OBJS}
 				${CC} ${CFLAGS} ${INCLUDE} ${OBJS} -L ${LIBFT} -lft -o ${NAME}
-				echo "$(BOLD)${GREEN}$(ERASE)--> minishell generated <--${END}"
+				echo "$(BOLD)${GREEN}$(ERASE)--> ${NAME} generated <--${END}"
 
 $(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c inc/*.h
 				$(MKDIR) $(dir $@)
@@ -45,7 +45,7 @@ fclean:			clean
 				printf "$(ERASE)${GREEN}--> LIBFT CLEAN<--${END}"
 				make fclean -C $(LIBFT) > SILENT
 				$(RM) SILENT
-				printf "$(ERASE)${GREEN}--> ${NAME} CLEAN <--${END}"
+				printf "$(ERASE)${GREEN}--> ${NAME} CLEAN <--${END}\n"
 
 re:				fclean all
 
