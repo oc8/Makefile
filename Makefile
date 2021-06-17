@@ -6,11 +6,12 @@ OBJS_DIR		= objs
 SRCS			= $(addprefix $(SRCS_DIR)/,$(LST_SRCS))
 OBJS			= $(LST_SRCS:%.c=$(OBJS_DIR)/%.o)
 CC				= clang
-CFLAGS			= -Wall -Werror -Wextra
-# CFLAGS			= -g
-# CFLAGS			= -Wall -Werror -Wextra -fsanitize=address -g3
-# CFLAGS			= -fsanitize=address -g3
-INCLUDE			= -Iinc
+FLAGS			= -Wall -Werror -Wextra
+# FLAGS			= -g
+# FLAGS			= -Wall -Werror -Wextra -fsanitize=address -g3
+# FLAGS			= -fsanitize=address -g3
+CFLAGS			= -Iinc
+INCLUDE			= ./inc/*.h
 RM				= rm -rf
 MKDIR			= mkdir -p
 
@@ -20,12 +21,12 @@ $(OBJS_DIR):
 				$(MKDIR) $@
 
 ${NAME}:		${OBJS_DIR} ${OBJS}
-				${CC} ${CFLAGS} ${INCLUDE} ${OBJS} -o ${NAME}
+				${CC} ${FLAGS} ${CFLAGS} ${OBJS} -o ${NAME}
 				echo "$(BOLD)${GREEN}$(ERASE)--> ${NAME} generated <--${END}"
 
-$(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c inc/*.h
+$(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c $(INCLUDE)
 				$(MKDIR) $(dir $@)
-				${CC} ${CFLAGS} $(INCLUDE) -c  $< -o $@
+				${CC} ${FLAGS} $(CFLAGS) -c  $< -o $@
 				printf "$(ERASE)--> [$(GREEN)$<$(END)] <--"
 
 clean:
