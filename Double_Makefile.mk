@@ -46,7 +46,7 @@ ${NAME}:		${OBJS_DIR} ${OBJS1} ${OBJS2} $(OBJS)
 
 $(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c $(INCLUDE)
 				$(MKDIR) $(dir $@)
-				${CC} ${FLAGS} $(CFLAGS) -c  $< -o $@
+				${CC} ${FLAGS} $(CFLAGS) -c $< -o $@
 				printf "$(ERASE)--> [$(GREEN)$<$(END)] <--"
 
 clean:

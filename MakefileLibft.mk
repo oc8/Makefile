@@ -33,19 +33,19 @@ ${NAME}:		libft ${OBJS_DIR} ${OBJS}
 
 $(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c $(INCLUDE)
 				$(MKDIR) $(dir $@)
-				${CC} ${FLAGS} $(CFLAGS) -c  $< -o $@
+				${CC} ${FLAGS} $(CFLAGS) -c $< -o $@
 				printf "$(ERASE)--> [$(GREEN)$<$(END)] <--"
 
 clean:
 				${RM} $(OBJS)
-				make clean -C $(LIBFT) > SILENT
-				$(RM) SILENT
+				make clean -C $(LIBFT) > silent
+				$(RM) silent
 
 fclean:			clean
 				${RM} $(OBJS_DIR) $(NAME)
 				printf "$(ERASE)${GREEN}--> LIBFT CLEAN<--${END}"
-				make fclean -C $(LIBFT) > SILENT
-				$(RM) SILENT
+				make fclean -C $(LIBFT) > silent
+				$(RM) silent
 				printf "$(ERASE)${GREEN}--> ${NAME} CLEAN <--${END}\n"
 
 re:				fclean all
